@@ -85,7 +85,7 @@ def main():
     # so we can subscribe to configured topics
     client.user_data_set(config)
 
-    client.connect(config["mqtt"]["broker"], config["mqtt"]["port"], 60)
+    client.connect(config["mqtt"]["host"], config["mqtt"]["port"], 60)
     client.loop_forever()
 
 

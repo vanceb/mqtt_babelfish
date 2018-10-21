@@ -106,3 +106,4 @@ venv.bak/
 
 # Project specific
 config.yaml
+logs/
