@@ -1,8 +1,9 @@
 version: '2'
 services:
   mqtt_babelfish:
-    image: vanceb/mqtt_bablefish:latest
-    container_name: mqtt_bablefish
+    image: vanceb/mqtt_babelfish:latest
+    container_name: mqtt_babelfish
     restart: always
     volumes:
-      - /data/mqtt_bablefish/logs:/code/logs
+      - /data/mqtt_babelfish/logs:/code/logs
+      - /data/mqtt_babelfish/conf:/code/conf

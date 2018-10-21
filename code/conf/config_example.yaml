@@ -1,0 +1,29 @@
+mqtt:
+  host: <your mqtt server>
+  port: <your mqtt server port>
+  username: <your mqtt login username>
+  password: <your mqtt login password>
+
+tls:
+  ca_certs: ./conf/ca.pem # the ca certificate if you are using mqtts
+
+subscribe:
+  # Commands from gBridge
+  - gBridge/u37/+/+
+  # Status from the lights
+  - stat/+/POWER
+
+translate_topic:
+  # Incoming commands from gBridge
+  gBridge/u37/d73/onoff: cmnd/sonoff-lounge-light/power
+  gBridge/u37/d74/onoff: cmnd/sonoff-dining-light/power
+  gBridge/u37/d75/onoff: cmnd/sonoff-hall-light/power
+  # Return status to gBridge
+  stat/sonoff-lounge-light/POWER: gBridge/u37/d73/onoff/set
+  stat/sonoff-dining-light/POWER: gBridge/u37/d74/onoff/set
+  stat/sonoff-hall-light/POWER: gBridge/u37/d75/onoff/set
+
+translate_message:
+  # ON and OFF need to be in quotes or they get translated to true/false
+  "ON": 1
+  "OFF": 0

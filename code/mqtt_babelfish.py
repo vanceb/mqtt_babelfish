@@ -6,7 +6,7 @@ import paho.mqtt.client as mqtt
 
 
 # Load logging config from logging.yaml
-def setup_logging(default_path='logging.yaml',
+def setup_logging(default_path='./conf/logging.yaml',
                   default_level=logging.INFO, 
                   env_key='LOG_CFG'):
     path = default_path
@@ -24,7 +24,7 @@ def setup_logging(default_path='logging.yaml',
 
 
 # Load config from yaml file
-def load_config(path='config.yaml'):
+def load_config(path='./conf/config.yaml'):
     config = None
     log = logging.getLogger(__name__)
     if os.path.exists(path):
@@ -47,16 +47,20 @@ def on_connect(client, config, flags, rc):
 
 def on_message(client, config, msg):
     log = logging.getLogger(__name__)
-    log.info("Received message: " + msg.topic + " " + msg.payload)
+    if type(msg.payload) == type(b'1'):
+        payload = msg.payload.decode('UTF-8')
+    else:
+        payload = msg.payload
+    log.info("Received message: " + msg.topic + " " + payload)
     if msg.topic in config["translate_topic"]:
         # We should translate the incoming message
         # Topic
         t = config["translate_topic"][msg.topic]
         # Message
-        if msg.payload in config["translate_message"]:
-            m = config["translate_message"][msg.payload]
+        if payload in config["translate_message"]:
+            m = config["translate_message"][payload]
         else:
-            m = msg.payload
+            m = payload
         # Republish
         log.info("Republishing to: " + t + " " + str(m))
         client.publish(t, m)

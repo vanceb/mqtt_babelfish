@@ -9,4 +9,4 @@ ADD ./code /code
 WORKDIR /code
 
 # Run our python script in the container
-CMD [ "python", "./mqtt_bablefish.py"]
+CMD [ "python", "./mqtt_babelfish.py"]
